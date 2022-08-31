@@ -23,15 +23,15 @@ def log_and_error_method_decorator(func) -> dict:
             function_name = func.__name__
             result = func(self, *args, **kwargs)
         except self.__error_object as err:
-            error_msg = {'result': False, 'action_type': function_name, 'error': str(err)}
+            error_msg = {'result': False, 'action_type': function_name, 'error': (str(err), args, kwargs)}
             logging.error(error_msg)
             return error_msg
         except self.__warning_object as warning:
-            warning_msg = {'result': False, 'action_type': function_name, 'error': str(warning)}
+            warning_msg = {'result': False, 'action_type': function_name, 'error': (str(warning), args, kwargs)}
             logging.warning(warning_msg)
             return warning_msg
         except Exception as unhandled_exception:
-            critical_msg = {'result': False, 'action_type': function_name, 'error': str(unhandled_exception)}
+            critical_msg = {'result': False, 'action_type': function_name, 'error': (str(unhandled_exception), args, kwargs)}
             logging.error(critical_msg)
             return critical_msg
         else:
